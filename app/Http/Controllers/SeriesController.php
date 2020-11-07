@@ -41,7 +41,10 @@ class SeriesController
 
     public function update(Request $request, int $id)
     {
-        $serie = Serie::find($id);
+        $serie = Serie::query()
+            ->where('list_id', Auth::user()->list_id)
+            ->where('id', $id)
+            ->first();
         if (!is_null($serie)){
             $serie->fill($request->all());
             $serie->save();
@@ -60,10 +63,17 @@ class SeriesController
 
     public function destroy(int $id)
     {
-        $removed = Serie::destroy($id);
-        if ($removed === 0){
-            return response()->json(['erro' => 'serie not found.'], 404);
+        $serie = Serie::query()
+            ->where('list_id', Auth::user()->list_id)
+            ->where('id', $id)
+            ->first();
+        if (!is_null($serie)) {
+            $removed = $serie->delete();
+            if ($removed === 0){
+                return response()->json(['erro' => 'serie not found.'], 404);
+            }
+            return response()->json('Serie removed.');
         }
-        return response()->json('Serie removed.');
+        return response()->json(['erro' => 'serie not found.'], 404);
     }
 }
