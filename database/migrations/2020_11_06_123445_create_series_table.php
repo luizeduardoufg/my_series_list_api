@@ -20,13 +20,12 @@ class CreateSeriesTable extends Migration
             $table->string('image');
             $table->char('status');
             $table->float('score')->default(0.0);
-            $table->unsignedBigInteger('serie_list_id')->index();
+            $table->unsignedBigInteger('list_id')->index()->nullable();
             $table->timestamps();
 
-
-            $table->foreign('serie_list_id')
-                ->references('id')
-                ->on('series_list')
+            $table->foreign('list_id')
+                ->references('list_id')
+                ->on('users')
                 ->onDelete('cascade');
         });
     }

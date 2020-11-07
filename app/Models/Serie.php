@@ -6,17 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Serie extends Model
 {
-    protected $fillable = ['name', 'seasons_qt', 'image', 'status', 'serie_list_id'];
+    protected $fillable = ['name', 'seasons_qt', 'image', 'status'];
     protected $appends = ['links'];
+    protected $hidden = ['list_id'];
 
     public function seasons()
     {
         return $this->hasMany(Season::class);
     }
 
-    public function serieList()
+    public function user()
     {
-        return $this->belongsTo(SerieList::class);
+        return $this->belongsTo(User::class, 'list_id');
     }
 
     public function getLinksAttribute() : array

@@ -19,6 +19,9 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->timestamps();
+            $table->unsignedBigInteger('list_id')
+                ->unique()
+                ->nullable();
         });
     }
 

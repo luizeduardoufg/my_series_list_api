@@ -17,7 +17,7 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(['prefix' => '/api/{username}'], function () use ($router) {
+$router->group(['prefix' => '/api/{username}', 'middleware' => 'auth'], function () use ($router) {
     $router->group(['prefix' => '/series'], function () use ($router) {
         $router->get('', 'SeriesController@index');
         $router->get('{id}', 'SeriesController@show');
@@ -34,22 +34,6 @@ $router->group(['prefix' => '/api/{username}'], function () use ($router) {
         $router->post('', 'SeasonsController@store');
         $router->put('{id}', 'SeasonsController@update');
         $router->delete('{id}', 'SeasonsController@destroy');
-    });
-
-    $router->group(['prefix' => '/list'], function () use ($router) {
-        $router->get('', 'SeriesListController@index');
-        $router->get('{id}', 'SeriesListController@show');
-        $router->post('', 'SeriesListController@store');
-        $router->put('{id}', 'SeriesListController@update');
-        $router->delete('{id}', 'SeriesListController@destroy');
-    });
-
-    $router->group(['prefix' => '/episodes'], function () use ($router) {
-        $router->get('', 'WatchedEpisodesController@index');
-        $router->get('{id}', 'WatchedEpisodesController@show');
-        $router->post('', 'WatchedEpisodesController@store');
-        $router->put('{id}', 'WatchedEpisodesController@update');
-        $router->delete('{id}', 'WatchedEpisodesController@destroy');
     });
 });
 

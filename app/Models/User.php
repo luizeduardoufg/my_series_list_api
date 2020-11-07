@@ -31,8 +31,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'password',
     ];
 
-    public function serieList()
+    public function series()
     {
-        return $this->hasOne(SerieList::class);
+        return $this->hasMany(Serie::class, 'list_id');
     }
 }
