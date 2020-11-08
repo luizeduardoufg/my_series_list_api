@@ -10,6 +10,7 @@ class Season extends Model
     use HasFactory;
     public $timestamps = false;
     protected $fillable = ['serie_id', 'number', 'score'];
+    protected $hidden = ['list_id'];
     // protected $appends = ['links'];
 
     public function watchedEpisodes()

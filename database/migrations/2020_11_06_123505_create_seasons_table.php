@@ -17,7 +17,13 @@ class CreateSeasonsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('serie_id')->index();
             $table->integer('number');
-            $table->integer('score');
+            $table->float('score')->default(0.0);
+            $table->unsignedBigInteger('list_id')->index()->nullable();
+
+            $table->foreign('list_id')
+            ->references('list_id')
+            ->on('users')
+            ->onDelete('cascade');
 
             $table->foreign('serie_id')
                 ->references('id')

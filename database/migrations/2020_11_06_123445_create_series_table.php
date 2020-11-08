@@ -17,8 +17,8 @@ class CreateSeriesTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('seasons_qt');
-            $table->string('image');
-            $table->char('status');
+            $table->string('image')->default('');
+            $table->char('status')->default('A');
             $table->float('score')->default(0.0);
             $table->unsignedBigInteger('list_id')->index()->nullable();
             $table->timestamps();
