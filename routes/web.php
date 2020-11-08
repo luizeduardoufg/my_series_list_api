@@ -35,6 +35,14 @@ $router->group(['prefix' => '/api/{username}', 'middleware' => 'auth'], function
         $router->put('{id}', 'SeasonsController@update');
         $router->delete('{id}', 'SeasonsController@destroy');
     });
+
+    $router->group(['prefix' => '/episodes'], function () use ($router) {
+        $router->get('', 'EpisodesController@index');
+        $router->get('{id}', 'EpisodesController@show');
+        $router->post('', 'EpisodesController@store');
+        $router->put('{id}', 'EpisodesController@update');
+        $router->delete('{id}', 'EpisodesController@destroy');
+    });
 });
 
 $router->post('/api/login', 'TokenController@generateToken');

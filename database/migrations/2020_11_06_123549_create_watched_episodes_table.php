@@ -17,7 +17,7 @@ class CreateWatchedEpisodesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('season_id')->index();
             $table->integer('watched')->default(0);
-            $table->integer('total_watched');
+            $table->integer('total');
             $table->unsignedBigInteger('list_id')->index()->nullable();
 
             $table->foreign('season_id')

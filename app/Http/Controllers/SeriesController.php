@@ -8,14 +8,9 @@ use Illuminate\Support\Facades\Auth;
 
 class SeriesController extends CrudController
 {
-    public function __construct(Request $request)
+    public function __construct()
     {
-        if ($request->username === Auth::user()->username){
-            $this->listId = Auth::user()->list_id;
-            $this->class = Serie::class;
-        }
-        else {
-            dd('Unauthorized');
-        }
+        $this->listId = Auth::user()->list_id;
+        $this->class = Serie::class;
     }
 }

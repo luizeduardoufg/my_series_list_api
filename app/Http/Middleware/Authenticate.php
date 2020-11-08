@@ -2,8 +2,12 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
+use Exception;
+use Firebase\JWT\JWT;
 use Illuminate\Contracts\Auth\Factory as Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class Authenticate
 {
@@ -35,10 +39,31 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
-        }
+        try {
+            if (!$request->hasHeader('Authorization')) {
+                throw new Exception();
+            }
+            $authHeader = $request->header('Authorization');
+            $token = str_replace('Bearer ', '', $authHeader);
+            $dadosAutenticacao = JWT::decode($token, env('JWT_KEY'), ['HS256']);
 
-        return $next($request);
+            $user = User::where('email', $dadosAutenticacao->email)->first();
+
+            if (is_null($user)) {
+                throw new Exception();
+            }
+
+            if ($request->username !== FacadesAuth::user()->username){
+                throw new Exception();
+            }
+
+            // if ($this->auth->guard($guard)->guest()) {
+            //     return response('Unauthorized.', 401);
+            // }
+
+            return $next($request);
+        } catch (Exception $e) {
+            return response()->json('Unauthorized', 401);
+        }
     }
 }
